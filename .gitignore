@@ -1,0 +1,6 @@
+*.class 
+node_modules/
+www/
+.idea/
+typings/
+build/
