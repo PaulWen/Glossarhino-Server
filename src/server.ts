@@ -35,8 +35,8 @@ let config = {
         // The CouchDB compatible server where all your databases are stored on
         protocol: ServerConfig.DATABASE_PROTOCOL,
         host: ServerConfig.DATABASE_HOST,
-        user: 'root',
-        password: 'forthewin',
+        user: ServerConfig.DATABASE_USER,
+        password: ServerConfig.DATABASE_PASSWORD,
         // Set this to true if you are using Cloudant
         cloudant: false,
         // The name for the database that stores all your user information. This is distinct from CouchDB's _user database.
@@ -71,18 +71,49 @@ app.use(function(req, res, next) {
 });
 
 // output request details
-// app.use(function(req, res, next) {
-//     console.log("REQUEST URL: " + req.url );
-//     next(); // Passing the request to the next handler in the stack.
-// });
+app.use(function(req, res, next) {
+    console.log("REQUEST URL: " + req.url );
+    superlogin.validateEmailUsername("test2@test.de").then((data)=>{console.log(data);}).catch((data)=>{console.log(data);});
+    next(); // Passing the request to the next handler in the stack.
+});
 
 // use body parser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+//Custom SuperLogin routes to enhance the functionality of SuperLogin
+{
+    // get user databases of authenticated user
+    app.get('/auth/user-db', superlogin.requireAuth, (req: express.Request, res: express.Response) => {
+        // get the user data of the current user
+        superlogin.getUser(req.user._id)
+        // if request was successful return the names of the databases
+            .then((data)=> {
+                // represent the user databases nicely in a JSON object
+                let userDBs = {};
+                for (let i = 0; i < Object.keys(data.personalDBs).length; i++) {
+                    // Representation--> <database-name>=<URL to access database, already including the session token>
+                    userDBs[(data.personalDBs)[(Object.keys(data.personalDBs))[i]].name] = superlogin.config.getItem("dbServer").protocol + (<any>req.headers).authorization.replace("Bearer ", "") + "@" + superlogin.config.getItem("dbServer").host + "/" + (Object.keys(data.personalDBs))[i];
+                }
+
+                // send the formatted user database JSON object
+                res.send(userDBs);
+            })
+
+            //if there was an error, return the error code
+            .catch(function (error) {
+                res.sendStatus(error.status);
+            });
+    });
+}
+
+
 // Mount SuperLogin's routes to the app
 app.use('/auth', superlogin.router);
 
+
+
+/*  ///////////////do not use server as a web server yet/////////////////
 // define the static routes where just files should get loaded from
 app.use('/assets', express.static(__dirname + '/assets'));
 
@@ -93,6 +124,9 @@ app.use('/build', express.static(__dirname + '/build'));
 app.get('/*', (req: express.Request, res: express.Response) => {
     res.sendFile(__dirname + '/index.html');
 });
+*/
+
+
 
 // start the server
 let server = app.listen(port, function() {
