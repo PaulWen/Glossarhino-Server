@@ -35,8 +35,8 @@ let config = {
         // The CouchDB compatible server where all your databases are stored on
         protocol: ServerConfig.DATABASE_PROTOCOL,
         host: ServerConfig.DATABASE_HOST,
-        user: '',
-        password: '',
+        user: 'root',
+        password: 'forthewin',
         // Set this to true if you are using Cloudant
         cloudant: false,
         // The name for the database that stores all your user information. This is distinct from CouchDB's _user database.
@@ -47,20 +47,10 @@ let config = {
     },
     userDBs: {
         defaultDBs: {
-            private: ['settings', 'boards', 'cards', 'lists']
-        },
-        defaultSecurityRoles: {
-            admins: ['admin'],
-            members: []
-        }
-    },
-    userModel: {
-        // For example, this will require each new user to specify a valid age on the sign-up form or registration will fail
-        whitelist: ['firstName'],
-        validate: {
-            firstName: {
-                presence: true
-            }
+            // Private databases are personal to each user. They will be prefixed with your setting below and postfixed with $USERNAME.
+            private: ['settings'],
+            // Shared databases that you want the user to be authorized to use. These will not be prefixed, so type the exact name.
+            shared: ['application_settings', 'german', 'english']
         }
     }
 };
