@@ -71,11 +71,10 @@ app.use(function(req, res, next) {
 });
 
 // output request details
-app.use(function(req, res, next) {
-    console.log("REQUEST URL: " + req.url );
-    superlogin.validateEmailUsername("test2@test.de").then((data)=>{console.log(data);}).catch((data)=>{console.log(data);});
-    next(); // Passing the request to the next handler in the stack.
-});
+// app.use(function(req, res, next) {
+//     console.log("REQUEST URL: " + req.url );
+//     next(); // Passing the request to the next handler in the stack.
+// });
 
 // use body parser
 app.use(bodyParser.json());
