@@ -112,7 +112,6 @@ app.use('/auth', superlogin.router);
 
 
 
-/*  ///////////////do not use server as a web server yet/////////////////
 // define the static routes where just files should get loaded from
 app.use('/assets', express.static(__dirname + '/assets'));
 
@@ -123,7 +122,6 @@ app.use('/build', express.static(__dirname + '/build'));
 app.get('/*', (req: express.Request, res: express.Response) => {
     res.sendFile(__dirname + '/index.html');
 });
-*/
 
 
 
