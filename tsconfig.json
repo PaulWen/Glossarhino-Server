@@ -10,7 +10,6 @@
     "noImplicitAny": false,
     "suppressImplicitAnyIndexErrors": false
   },
-
   "exclude": [
     "./node_modules/"
   ]

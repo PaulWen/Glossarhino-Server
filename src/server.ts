@@ -40,7 +40,7 @@ let config = {
         // Set this to true if you are using Cloudant
         cloudant: false,
         // The name for the database that stores all your user information. This is distinct from CouchDB's _user database.
-        // Alternatively you can pass in a PouchDB object to the SuperLogin constructor and leave this blank
+        // Alternatively you can pass igulpn a PouchDB object to the SuperLogin constructor and leave this blank
         userDB: 'user_register',
         // CouchDB's _users database. Each session generates the user a unique login and password. This is not used with Cloudant.
         couchAuthDB: '_users'
@@ -50,7 +50,7 @@ let config = {
             // Private databases are personal to each user. They will be prefixed with your setting below and postfixed with $USERNAME.
             private: ['settings'],
             // Shared databases that you want the user to be authorized to use. These will not be prefixed, so type the exact name.
-            shared: ['application_settings', 'german', 'english']
+            shared: ['application_settings', 'language_0', 'language_1']
         }
     }
 };
