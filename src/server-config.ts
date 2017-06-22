@@ -10,8 +10,8 @@ export class ServerConfig {
     };
 
     public static get DATABASE_HOST(): string {
-//        return "wwiappdev1.dhbw-stuttgart.de:5984";
-        return "localhost:5984";
+        return "wwiappdev1.dhbw-stuttgart.de:5984";
+//        return "localhost:5984";
     };
 
     public static get DATABASE_USER(): string {
